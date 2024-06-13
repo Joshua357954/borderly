@@ -57,9 +57,15 @@ export default function Home() {
       <section className="w-full bg-red-500 ">
         <div className="bg-yellow-400 w-fit px-2 py-3">
           <div className="flex bg-gray-100 p1 rounded-sm w-fit">
-            <button className="text-center border-r-2 border-r-black p-2">Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-            <button className="text-center border-l-2 border-l-black p-2">Compaines</button>
+            <button className="text-center border-r-2 border-r-black p-2">
+              Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </button>
+            <button className="text-center border-l-2 border-l-black p-2">
+              Compaines
+            </button>
           </div>
+
+          <button>SignIn with google</button>
         </div>
       </section>
     </main>

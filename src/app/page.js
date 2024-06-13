@@ -1,10 +1,25 @@
+"use client";
 import Image from "next/image";
 import { FaRegCompass as Compass, FaCaretDown } from "react-icons/fa";
 import { GiPriceTag } from "react-icons/gi";
 import { MdVerified } from "react-icons/md";
 import { FaRocket } from "react-icons/fa";
+import { useState } from "react";
+import firebase from "@/config/firebase";
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState("Users");
+
+  const handleGoogleSignIn = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+      await firebase.auth().signInWithPopup(provider);
+      console.log("User signed in!");
+    } catch (error) {
+      console.error("Error signing in with Google: ", error);
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center">
       <nav className="flex justify-between w-full px-4 bg-blue-000 py-4 items-center">
@@ -54,18 +69,39 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="w-full bg-red-500 ">
-        <div className="bg-yellow-400 w-fit px-2 py-3">
-          <div className="flex bg-gray-100 p1 rounded-sm w-fit">
-            <button className="text-center border-r-2 border-r-black p-2">
-              Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <section className="w-full flex justify-center">
+        <div className="bg-yellow-400 px-2 py-4 w-[40%] h-[200px] flex flex-col items-center gap-5">
+          <div className="flex bg-gray-100 rounded-sm w-fit mx-auto p-2">
+            <button
+              className={`text-center border-r-2 px-4 py-3 ${
+                activeTab === "Users" ? "bg-white" : ""
+              }`}
+              onClick={() => setActiveTab("Users")}
+            >
+              Users
             </button>
-            <button className="text-center border-l-2 border-l-black p-2">
-              Compaines
+            <button
+              className={`text-center border-l-2 px-4 py-3 ${
+                activeTab === "Companies" ? "bg-white" : ""
+              }`}
+              onClick={() => setActiveTab("Companies")}
+            >
+              Companies
             </button>
           </div>
 
-          <button>SignIn with google</button>
+          <button
+            className="flex gap-2 bg-black text-white items-center px-10 py-4"
+            onClick={handleGoogleSignIn}
+          >
+            <Image
+              src="/google-img.png"
+              width="20"
+              height="20"
+              alt="Google logo"
+            />
+            SignIn with Google
+          </button>
         </div>
       </section>
     </main>

@@ -6,7 +6,7 @@ import { MdVerified } from "react-icons/md";
 import { FaRocket } from "react-icons/fa";
 import { useState } from "react";
 import firebase from "@/config/firebase";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Users");
@@ -17,14 +17,31 @@ export default function Home() {
 
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("User signed in:", result.user.displayName);
-      // Optionally, you can perform additional actions after successful sign-in
+      const user = result.user;
+
+      // Extract important data points
+      const uid = user.uid;
+      const displayName = user.displayName || "";
+      const email = user.email;
+      const photoURL = user.photoURL;
+
+      // Split display name into first and last name
+      const [firstName, ...lastNameParts] = displayName.split(" ");
+      const lastName = lastNameParts.join(" ");
+
+      // Create user data object
+      const userData = {
+        uid,
+        firstName,
+        lastName,
+        email,
+        photoURL,
+      };
     } catch (error) {
       console.error("Error signing in with Google:", error);
       // toast.error("Failed to sign in with Google.");
     }
   };
-
 
   return (
     <main className="flex min-h-screen flex-col items-center">

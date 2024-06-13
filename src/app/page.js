@@ -6,19 +6,25 @@ import { MdVerified } from "react-icons/md";
 import { FaRocket } from "react-icons/fa";
 import { useState } from "react";
 import firebase from "@/config/firebase";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Users");
 
   const handleGoogleSignIn = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
     try {
-      await firebase.auth().signInWithPopup(provider);
-      console.log("User signed in!");
+      const result = await signInWithPopup(auth, provider);
+      console.log("User signed in:", result.user.displayName);
+      // Optionally, you can perform additional actions after successful sign-in
     } catch (error) {
-      console.error("Error signing in with Google: ", error);
+      console.error("Error signing in with Google:", error);
+      // toast.error("Failed to sign in with Google.");
     }
   };
+
 
   return (
     <main className="flex min-h-screen flex-col items-center">
